@@ -64,11 +64,11 @@ export default class Home extends Component {
       <div id="home" style={{ position: 'relative' }}>
         <h1>treemap-with-router</h1>
         <h2>
-          <Link to="/">[TOP]</Link>
+          <Link to="/" key="top">[TOP]</Link>
           {path.map((name, i) => (
-            <span>
+            <span key={`s_${name}_${i}`}>
               {' / '}
-              <Link to={'/' + path.slice(0, i + 1).join('/')}>{name}</Link>
+              <Link to={'/' + path.slice(0, i + 1).join('/')} key={`l_${name}_${i}`}>{name}</Link>
             </span>
           ))}
         </h2>

@@ -3,67 +3,24 @@ const DATA = {
   children: [
     {
       name: 'A',
-      children: [
-        {
-          name: 'AA',
-          children: [
-            {
-              name: 'AAA',
-              value: 4
-            },
-            {
-              name: 'BBB',
-              value: 8
-            },
-            {
-              name: 'CCC',
-              value: 16
-            },
-          ]
-        },
-      ]
+      size: 10
     },
     {
       name: 'B',
       children: [
         {
           name: '1',
-          value: 10
+          size: 4
         },
         {
           name: '2',
-          value: 20
-        },
-        {
-          name: '3',
-          value: 30
+          size: 6
         },
       ]
     },
     {
       name: 'C',
-      value: 15
-    },
-    {
-      name: 'D',
-      children: [
-        {
-          name: '000',
-          value: 5,
-        },
-        {
-          name: '001',
-          value: 6,
-        },
-        {
-          name: '010',
-          value: 7,
-        },
-        {
-          name: '011',
-          value: 8,
-        },
-      ]
+      size: 20
     }
   ]
 };
