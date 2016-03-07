@@ -27,8 +27,8 @@
     "redux-tooltip": "^0.5.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.6.0",
-    "babel-core": "^6.6.0",
+    "babel-cli": "^6.6.5",
+    "babel-core": "^6.6.5",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-polyfill": "^6.6.1",
