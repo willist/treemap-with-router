@@ -10,6 +10,8 @@ export default class Treemap extends Component {
   static propTypes = {
     data: PropTypes.object.isRequired,
     onMoveDown: PropTypes.func.isRequired,
+    onShowDetail: PropTypes.func.isRequired,
+    onHideDetail: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
@@ -31,13 +33,13 @@ export default class Treemap extends Component {
       .attr('width', WIDTH)
       .attr('height', HEIGHT);
 
-    const { data, onMoveDown } = this.props;
+    const { data, onMoveDown, onShowDetail, onHideDetail } = this.props;
 
     const layer = this.svg.append('g');
 
     const treemap = d3.layout.treemap()
       .children(d => d.children)
-      .value(d => d.value)
+      .value(d => d.size)
       .size([WIDTH, HEIGHT]);
 
     const next = d => d.depth === 1;
@@ -53,6 +55,14 @@ export default class Treemap extends Component {
           if (d.children) {
             onMoveDown(d.name);
           }
+        })
+        .on('mousemove', function (d) {
+          const el = document.getElementById('container');
+          const [x, y] = d3.mouse(el);
+          onShowDetail({ x, y }, d.name);
+        })
+        .on('mouseleave', function (d) {
+          onHideDetail();
         });
 
     children.append('rect')

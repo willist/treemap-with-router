@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { MOVE_DOWN, MOVE_UP } from './actions';
+import { reducer as tooltip } from 'redux-tooltip';
 
 const initial = {
   path: [],
@@ -18,5 +19,5 @@ function app(state = initial, action) {
 }
 
 export default combineReducers(
-  { app, routing: routerReducer }
+  { app, tooltip, routing: routerReducer }
 );

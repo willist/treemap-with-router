@@ -1,78 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import { Tooltip, actions as tooltipActions } from 'redux-tooltip';
 import Treemap from './treemap';
 import { moveDown } from './actions';
-
-const DATA = {
-  name: 'ROOT',
-  children: [
-    {
-      name: 'A',
-      children: [
-        {
-          name: 'AA',
-          children: [
-            {
-              name: 'AAA',
-              value: 4
-            },
-            {
-              name: 'BBB',
-              value: 8
-            },
-            {
-              name: 'CCC',
-              value: 16
-            },
-          ]
-        },
-      ]
-    },
-    {
-      name: 'B',
-      children: [
-        {
-          name: '1',
-          value: 10
-        },
-        {
-          name: '2',
-          value: 20
-        },
-        {
-          name: '3',
-          value: 30
-        },
-      ]
-    },
-    {
-      name: 'C',
-      value: 15
-    },
-    {
-      name: 'D',
-      children: [
-        {
-          name: '000',
-          value: 5,
-        },
-        {
-          name: '001',
-          value: 6,
-        },
-        {
-          name: '010',
-          value: 7,
-        },
-        {
-          name: '011',
-          value: 8,
-        },
-      ]
-    }
-  ]
-};
+import DATA from './data';
 
 function crop(path) {
   let cropped = DATA;
@@ -116,12 +48,20 @@ export default class Home extends Component {
     router.push(path);
   }
 
+  handleHover(origin, name) {
+    this.props.dispatch(tooltipActions.show({ origin, content: name }));
+  }
+
+  handleLeave() {
+    this.props.dispatch(tooltipActions.hide());
+  }
+
   render() {
     const { location } = this.props;
     const path = location.pathname.split('/').filter(s => 0 < s.length);
     const cropped = crop(path);
     return (
-      <div>
+      <div id="home" style={{ position: 'relative' }}>
         <h1>treemap-with-router</h1>
         <h2>
           <Link to="/">[TOP]</Link>
@@ -132,7 +72,13 @@ export default class Home extends Component {
             </span>
           ))}
         </h2>
-        <Treemap data={cropped} onMoveDown={::this.handleMoveDown} />
+        <Treemap
+          data={cropped}
+          onMoveDown={::this.handleMoveDown}
+          onShowDetail={::this.handleHover}
+          onHideDetail={::this.handleLeave}
+        />
+        <Tooltip />
       </div>
     );
   }
