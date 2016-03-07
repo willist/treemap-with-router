@@ -2,20 +2,22 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Tooltip, actions as tooltipActions } from 'redux-tooltip';
+import copy from 'deepcopy';
 import Treemap from './treemap';
 import { moveDown } from './actions';
-import DATA from './data';
+import DATA from './data.mini';
 
-function crop(path) {
-  let cropped = DATA;
+function collapse(path) {
+  let collapsed = copy(DATA), focus = collapsed;
   const remain = [...path];
   while (0 < remain.length) {
-    const name = remain.shift();
-    if (typeof cropped.children === 'undefined') {
+    if (typeof focus.children === 'undefined') {
       console.warn(`No children, this is a leaf node`);
       break;
     }
-    const matches = cropped.children.filter(c => c.name === name);
+
+    const name = remain.shift();
+    const matches = focus.children.filter(c => c.name === name);
     if (1 < matches.length) {
       console.warn(`Found multiple nodes which have same name: '${name}'`);
       break;
@@ -24,9 +26,17 @@ function crop(path) {
       console.warn(`No child named '${name}'`);
       break;
     }
-    cropped = matches[0];
+
+    // Crush all children except matched child
+    focus.children.forEach(c => {
+      if (c.name !== name) {
+        c.size = 0; // Crush!
+      }
+    });
+
+    focus = matches[0];
   }
-  return cropped;
+  return collapsed;
 }
 
 @connect(({ app }) => ({ app }))
@@ -49,17 +59,17 @@ export default class Home extends Component {
   }
 
   handleHover(origin, name) {
-    this.props.dispatch(tooltipActions.show({ origin, content: name }));
+    // this.props.dispatch(tooltipActions.show({ origin, content: name }));
   }
 
   handleLeave() {
-    this.props.dispatch(tooltipActions.hide());
+    // this.props.dispatch(tooltipActions.hide());
   }
 
   render() {
     const { location } = this.props;
     const path = location.pathname.split('/').filter(s => 0 < s.length);
-    const cropped = crop(path);
+    const data = collapse(path);
     return (
       <div id="home" style={{ position: 'relative' }}>
         <h1>treemap-with-router</h1>
@@ -73,7 +83,7 @@ export default class Home extends Component {
           ))}
         </h2>
         <Treemap
-          data={cropped}
+          data={data}
           onMoveDown={::this.handleMoveDown}
           onShowDetail={::this.handleHover}
           onHideDetail={::this.handleLeave}

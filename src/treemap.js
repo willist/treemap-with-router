@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import d3 from 'd3';
+import equal from 'deep-equal';
 
 const WIDTH = 800;
 const HEIGHT = 400;
@@ -19,7 +20,7 @@ export default class Treemap extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.data.name !== this.props.data.name) {
+    if (!equal(prevProps.data, this.props.data)) {
       this.renderTreemap();
     }
   }
