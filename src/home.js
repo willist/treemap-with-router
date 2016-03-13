@@ -5,7 +5,7 @@ import { Tooltip, actions as tooltipActions } from 'redux-tooltip';
 import copy from 'deepcopy';
 import Treemap from './treemap';
 import { moveDown } from './actions';
-import DATA from './data.mini';
+import DATA from './data';
 
 function collapse(path) {
   let collapsed = copy(DATA), focus = collapsed;
@@ -39,6 +39,29 @@ function collapse(path) {
   return collapsed;
 }
 
+function crop(path) {
+  let cropped = DATA;
+  const remain = [...path];
+  while (0 < remain.length) {
+    const name = remain.shift();
+    if (typeof cropped.children === 'undefined') {
+      console.warn(`No children, this is a leaf node`);
+      break;
+    }
+    const matches = cropped.children.filter(c => c.name === name);
+    if (1 < matches.length) {
+      console.warn(`Found multiple nodes which have same name: '${name}'`);
+      break;
+    }
+    if (matches.length === 0) {
+      console.warn(`No child named '${name}'`);
+      break;
+    }
+    cropped = matches[0];
+  }
+  return copy(cropped);
+}
+
 @connect(({ app }) => ({ app }))
 export default class Home extends Component {
   static displayName = 'Home';
@@ -69,7 +92,7 @@ export default class Home extends Component {
   render() {
     const { location } = this.props;
     const path = location.pathname.split('/').filter(s => 0 < s.length);
-    const data = collapse(path);
+    const data = crop(path);
     return (
       <div id="home" style={{ position: 'relative' }}>
         <h1>treemap-with-router</h1>
@@ -83,7 +106,7 @@ export default class Home extends Component {
           ))}
         </h2>
         <Treemap
-          data={data}
+          { ...{ data, path } }
           onMoveDown={::this.handleMoveDown}
           onShowDetail={::this.handleHover}
           onHideDetail={::this.handleLeave}
