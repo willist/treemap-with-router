@@ -2,6 +2,8 @@
 
 An example for [react-router-redux](https://github.com/reactjs/react-router-redux) with [d3](https://d3js.org/)'s [treemap](https://bl.ocks.org/mbostock/4063582).
 
+![Preview](https://raw.github.com/wiki/kuy/treemap-with-router/images/preview.gif)
+
 ## Usage
 
 ```

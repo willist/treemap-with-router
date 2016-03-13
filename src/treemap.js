@@ -6,7 +6,7 @@ import equal from 'deep-equal';
 const WIDTH = 800;
 const HEIGHT = 400;
 const DURATION = 750;
-const color = d3.scale.category10();
+const color = d3.scale.category20b();
 
 export default class Treemap extends Component {
   static displayName = 'Treemap';
