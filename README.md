@@ -19,6 +19,10 @@ Open [http://localhost:8080/](http://localhost:8080/) in your browser :zap:
 
 + Transition doesn't work correctly when moving up/down two or more levels at once
 
+## Changelog
+
+See [CHANGELOG.md](https://github.com/kuy/treemap-with-router/blob/master/CHANGELOG.md).
+
 ## License
 
 MIT

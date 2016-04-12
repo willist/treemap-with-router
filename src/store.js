@@ -1,10 +1,11 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore } from 'redux';
 import reducer from './reducers';
-import logger from 'redux-logger';
+import DevTools from './dev-tools';
 
-const list = [];
-if (window && !window.__karma__) {
-  list.push(logger());
+export default function configureStore(initialState) {
+  return createStore(
+    reducer,
+    initialState,
+    DevTools.instrument()
+  );
 }
-
-export default applyMiddleware(...list)(createStore)(reducer);
