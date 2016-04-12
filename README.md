@@ -2,6 +2,8 @@
 
 An example for [react-router-redux](https://github.com/reactjs/react-router-redux) with [d3](https://d3js.org/)'s [treemap](https://bl.ocks.org/mbostock/4063582).
 
+### [Online Demo](http://kuy.github.io/treemap-with-router/)
+
 ![Preview](https://raw.github.com/wiki/kuy/treemap-with-router/images/preview.gif)
 
 ## Usage
@@ -18,6 +20,7 @@ Open [http://localhost:8080/](http://localhost:8080/) in your browser :zap:
 ## Known Issues
 
 + Transition doesn't work correctly when moving up/down two or more levels at once
++ Broken handling of initial path
 
 ## Changelog
 

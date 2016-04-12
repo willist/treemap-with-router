@@ -43,11 +43,6 @@ export default class Home extends Component {
     router.push(`${location.pathname}${name}`);
   }
 
-  handleMoveTo(path) {
-    const { router } = this.context;
-    router.push(path);
-  }
-
   handleHover(origin, name) {
     this.props.dispatch(tooltipActions.show({ origin, content: name }));
   }
@@ -57,16 +52,17 @@ export default class Home extends Component {
   }
 
   render() {
-    const { location } = this.props;
-    const path = location.pathname.split('/').filter(s => 0 < s.length);
+    const { location, app: { base } } = this.props;
+    const pathname = location.pathname.replace(base, '');
+    const path = pathname.split('/').filter(s => 0 < s.length);
     const data = crop(path);
     return (
       <div id="home" style={{ position: 'relative' }}>
         <h1>treemap-with-router</h1>
         <div className="path">
-          <Link to="/" key="top" className="path-item">[ROOT]</Link>
+          <Link to={`${base}`} key="top" className="path-item">[ROOT]</Link>
           {path.map((name, i) => (
-            <Link to={'/' + path.slice(0, i + 1).join('/')} key={`l_${name}_${i}`} className="path-item">{name}</Link>
+            <Link to={`${base}/` + path.slice(0, i + 1).join('/')} key={`l_${name}_${i}`} className="path-item">{name}</Link>
           ))}
         </div>
         <Treemap
