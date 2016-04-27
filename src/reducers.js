@@ -21,7 +21,7 @@ function app(state = initial, action) {
   case MOVE_DOWN:
     return { ...state, path: state.path.concat([action.payload]) };
   case MOVE_UP:
-    return { ...state, paht: state.path.slice(0, -1) };
+    return { ...state, path: state.path.slice(0, -1) };
   default:
     return state;
   }
